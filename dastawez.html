@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dastawez - Instant Printing & Digital Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header-animate {
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #f59e0b;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .footer-link {
+            position: relative;
+        }
+        
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .footer-link:hover::after {
+            width: 100%;
+        }
+        
+        .contact-card {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #f59e0b;
+            margin: 12px auto 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-md sticky top-0 z-50 header-animate">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="logo flex items-center">
+                <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3">
+                    <span class="text-blue-600 font-bold text-xl">DW</span>
+                </div>
+                <h1 class="text-white text-2xl font-bold">Dasta<span class="text-yellow-400">wez</span></h1>
+            </div>
+            <button class="md:hidden text-white text-2xl focus:outline-none" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="hidden md:block" id="mainNav">
+                <ul class="flex space-x-8">
+                    <li><a href="#home" class="text-white font-medium nav-link relative py-2">Home</a></li>
+                    <li><a href="#services" class="text-white font-medium nav-link relative py-2">Services</a></li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                           class="text-white font-medium nav-link relative py-2">Order Now</a></li>
+                    <li><a href="#contact" class="text-white font-medium nav-link relative py-2">Contact</a></li>
+                    <li><a href="./About.html" class="text-white font-medium nav-link relative py-2">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 md:py-28">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                    Instant Printing & MP Online Services <span class="text-yellow-300">Delivered</span> to Your Doorstep
+                </h2>
+                <p class="text-lg md:text-xl mb-8 text-blue-100">
+                    Fast, reliable, and affordable solutions for all your printing and government service needs. 
+                    We handle the paperwork so you don't have to!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                       class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                        Order Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#services" 
+                       class="bg-white bg-opacity-10 hover:bg-opacity-20 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                        Our Services <i class="fas fa-list ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 section-title">
+                    Our Services
+                </h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Comprehensive solutions for all your document and digital needs
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- MP Online Services Card -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md service-card border border-gray-100">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Government Services" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-landmark text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">MP Online Services</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Domicile & Caste Certificates</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Birth & Death Certificates</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>PAN Card & Voter ID Applications</span>
+                            </li>
+                        </ul>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            Get Started <i class="fas fa-chevron-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Academic Forms Card -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md service-card border border-gray-100">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Academic Forms" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Academic Forms</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>College & University Forms</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Scholarship Applications</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Exam & Admission Forms</span>
+                            </li>
+                        </ul>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            Get Started <i class="fas fa-chevron-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Document Services Card -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md service-card border border-gray-100">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Document Services" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Document Services</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Professional Resume Building</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Assignment & Notes Printing</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Lamination & Binding Services</span>
+                            </li>
+                        </ul>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            Get Started <i class="fas fa-chevron-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Digital Services Card -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md service-card border border-gray-100">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Digital Services" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-laptop-code text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Digital Services</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Professional PPT & Document Design</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Poster & Invitation Card Design</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>PDF Editing & Formatting</span>
+                            </li>
+                        </ul>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            Get Started <i class="fas fa-chevron-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Business Services Card -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md service-card border border-gray-100">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Business Services" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-briefcase text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Business Services</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Custom Business Card Design</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Company Profile Design</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Brochures & Flyers</span>
+                            </li>
+                        </ul>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            Get Started <i class="fas fa-chevron-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Exam Forms Card -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md service-card border border-gray-100">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Exam Forms" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-clipboard-list text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Exam Forms</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>CUET, JEE, NEET Forms</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Government Exam Forms</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 text-sm"></i>
+                                <span>Competitive Exam Applications</span>
+                            </li>
+                        </ul>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                            Get Started <i class="fas fa-chevron-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 section-title">
+                    How It Works
+                </h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Simple steps to get your documents ready without leaving your home
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-600 text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Place Your Order</h3>
+                    <p class="text-gray-600">
+                        Fill our simple form with your requirements or upload your documents
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-600 text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">We Process It</h3>
+                    <p class="text-gray-600">
+                        Our experts handle all the paperwork, printing, and processing
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-blue-600 text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Delivery to You</h3>
+                    <p class="text-gray-600">
+                        Get your documents delivered to your doorstep or via email
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold section-title">
+                    What Our Customers Say
+                </h2>
+                <p class="text-blue-100 mt-4 max-w-2xl mx-auto">
+                    Don't just take our word for it - hear from our satisfied customers
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center mr-4">
+                            <span class="text-xl font-bold">A</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Amit Sharma</h4>
+                            <div class="flex text-yellow-300 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-blue-100">
+                        "Got my domicile certificate processed in just 2 days without visiting any office. Dastawez saved me so much time and hassle!"
+                    </p>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center mr-4">
+                            <span class="text-xl font-bold">P</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Priya Patel</h4>
+                            <div class="flex text-yellow-300 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-blue-100">
+                        "The resume they created for me helped me land 3 interview calls in a week. Professional design at an affordable price."
+                    </p>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center mr-4">
+                            <span class="text-xl font-bold">R</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Rahul Verma</h4>
+                            <div class="flex text-yellow-300 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-blue-100">
+                        "Their team helped me fill out complex university forms correctly. I would have made so many mistakes without their guidance."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 section-title">
+                    Contact Us
+                </h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Have questions or need assistance? We're here to help!
+                </p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-6 mb-12">
+                <!-- WhatsApp Card -->
+                <div class="bg-blue-50 rounded-xl p-6 text-center min-w-[200px] flex-1 contact-card">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-whatsapp text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Chat on WhatsApp</h3>
+                    <p class="text-gray-600 mb-3">Quick responses during business hours</p>
+                    <a href="https://wa.me/917898282349" 
+                       class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                        Message Us
+                    </a>
+                </div>
+                
+                <!-- Phone Card -->
+                <div class="bg-blue-50 rounded-xl p-6 text-center min-w-[200px] flex-1 contact-card">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Call Us</h3>
+                    <p class="text-gray-600 mb-3">Mon-Sat: 9AM - 7PM</p>
+                    <a href="tel:+917898282349" 
+                       class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                        +91-7898282349
+                    </a>
+                </div>
+                
+                <!-- Email Card -->
+                <div class="bg-blue-50 rounded-xl p-6 text-center min-w-[200px] flex-1 contact-card">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Email Us</h3>
+                    <p class="text-gray-600 mb-3">For detailed inquiries</p>
+                    <a href="mailto:dastawez.in@gmail.com" 
+                       class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                        dastawez.in@gmail.com
+                    </a>
+                <!-- Link Tree Card -->
+            </div>
+            <div class="bg-blue-50 rounded-xl p-6 text-center min-w-[200px] flex-1 contact-card">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-tree text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Link Tree</h3>
+                <p class="text-gray-600 mb-3">Visit our more social pletforms</p>
+                <a href="https://linktr.ee/dastawez" 
+                   class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">
+                   https://linktr.ee/dastawez
+                </a>
+            </div>
+            
+            <div class="max-w-3xl mx-auto bg-gray-50 rounded-xl p-8 shadow-sm">
+                <h3 class="text-xl font-semibold mb-6 text-center">Send Us a Message</h3>
+                <form class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="name" class="block text-gray-700 mb-2">Your Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 mb-2">Phone Number</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label for="service" class="block text-gray-700 mb-2">Service Needed</label>
+                        <select id="service" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                            <option value="">Select a service</option>
+                            <option value="mp-online">MP Online Services</option>
+                            <option value="printing">Printing Services</option>
+                            <option value="academic">Academic Forms</option>
+                            <option value="digital">Digital Services</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-gray-700 mb-2">Your Message</label>
+                        <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300">
+                        Send Message <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 section-title">
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                    Find answers to common questions about our services
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-semibold text-gray-800 focus:outline-none">
+                        <span>How long does it take to process government documents?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600">
+                        Processing times vary depending on the document and government department. Typically, simple certificates like domicile or income certificates take 2-3 working days, while more complex documents may take up to a week.
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-semibold text-gray-800 focus:outline-none">
+                        <span>What documents do I need to provide for certificate applications?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600">
+                        Requirements vary by certificate type. Generally, you'll need proof of identity (Aadhaar, PAN), proof of address, and any supporting documents specific to the certificate. Our team will guide you through the exact requirements for your specific need.
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-semibold text-gray-800 focus:outline-none">
+                        <span>Do you offer delivery services?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600">
+                        Yes! We offer doorstep delivery for all physical documents within our service areas. Digital services and soft copies are delivered via email or cloud sharing platforms for your convenience.
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-semibold text-gray-800 focus:outline-none">
+                        <span>How do I pay for your services?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600">
+                        We accept multiple payment methods including UPI, credit/debit cards, net banking, and cash on delivery (for physical services). Payment links will be shared after order confirmation.
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-semibold text-gray-800 focus:outline-none">
+                        <span>Can you help with corrections in official documents?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600">
+                        Yes, we assist with document corrections and amendments. The process depends on the type of document and the issuing authority. Contact us with your specific requirements for detailed guidance.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white text-center">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6">Ready to Simplify Your Document Needs?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">
+                Let us handle the paperwork while you focus on what matters most
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" 
+                   class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                    Order Now <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <a href="tel:+917898282349" 
+                   class="bg-white bg-opacity-10 hover:bg-opacity-20 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                    Call Us <i class="fas fa-phone-alt ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap gap-8 mb-8">
+                <!-- About Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <div class="flex items-center mb-4">
+                        <div class="h-10 w-10 bg-white rounded-full flex items-center justify-center mr-3">
+                            <span class="text-blue-600 font-bold">DW</span>
+                        </div>
+                        <h3 class="text-xl font-bold">Dasta<span class="text-yellow-400">wez</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Your trusted partner for all document and government service needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Services Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">MP Online Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Academic Forms</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Document Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Digital Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Exam Forms</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Quick Links Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white footer-link">Home</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white footer-link">Services</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white footer-link">Contact</a></li>
+                        <li><a href="./About.html" class="text-gray-400 hover:text-white footer-link">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-400"></i>
+                            <span>Indore, Madhya Pradesh, India</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-blue-400"></i>
+                            <a href="tel:+917898282349" class="hover:text-white">+91-7898282349</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-blue-400"></i>
+                            <a href="mailto:dastawez.in@gmail.com" class="hover:text-white">dastawez.in@gmail.com</a>
+                        </li>
+                         <li class="flex items-start">
+                            <i class="fas fa-tree mt-1 mr-3 text-blue-400"></i>
+                            <a href="https://linktr.ee/dastawez" class="hover:text-white">Link Tree</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-6 mt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Dastawez. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuBtn = document.getElementById('menuBtn');
+            const mainNav = document.getElementById('mainNav');
+            
+            if (menuBtn && mainNav) {
+                menuBtn.addEventListener('click', function() {
+                    mainNav.classList.toggle('hidden');
+                    mainNav.classList.toggle('md:block');
+                    
+                    // For mobile menu positioning
+                    if (window.innerWidth < 768) {
+                        if (!mainNav.classList.contains('absolute')) {
+                            mainNav.classList.add('absolute', 'top-full', 'left-0', 'w-full', 'bg-blue-800', 'bg-opacity-95', 'backdrop-blur-sm', 'px-5', 'py-3', 'shadow-lg');
+                            const navList = mainNav.querySelector('ul');
+                            navList.classList.add('flex', 'flex-col', 'space-y-3');
+                        }
+                    }
+                });
+            }
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('#mainNav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 768) {
+                        mainNav.classList.add('hidden');
+                        mainNav.classList.remove('md:block');
+                    }
+                });
+            });
+            
+            // FAQ accordion functionality
+            const faqButtons = document.querySelectorAll('.bg-white.p-6.rounded-xl.shadow-sm button');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('i');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
