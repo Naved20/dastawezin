@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for printing */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important; /* Ensure background colors and images are printed */
+                print-color-adjust: exact !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .invoice-page {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto; /* Allow height to adjust */
+                margin: 0;
+                padding: 20px;
+                box-shadow: none;
+                background: white;
+            }
+            .invoice-container {
+                max-width: 800px; /* Adjust as needed for print size */
+                margin: 0 auto;
+                border: none;
+                padding: 0;
+            }
+            .invoice-table th, .invoice-table td {
+                border-color: #e2e8f0 !important; /* Ensure borders print */
+            }
+        }
+
+        /* Base styles for the Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* Tailwind gray-100 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Tailwind gray-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* Tailwind gray-400 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 min-h-screen flex flex-col items-center">
+
+    <div class="no-print max-w-4xl w-full bg-white shadow-xl rounded-lg p-6 mb-8 border border-gray-200">
+        <h1 class="text-4xl font-extrabold text-blue-600 mb-8 text-center tracking-tight">Invoice Generator</h1>
+
+        <!-- Consumer Information -->
+        <section class="mb-8 p-6 bg-green-50 rounded-lg border border-green-200 shadow-sm">
+            <h2 class="text-2xl font-bold text-green-700 mb-4">Consumer Information</h2>
+            <div class="grid grid-cols-1 gap-6">
+                <div>
+                    <label for="consumerName" class="block text-sm font-medium text-gray-700 mb-1">Consumer Name</label>
+                    <input type="text" id="consumerName" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out" placeholder="e.g., Name of Consumer">
+                </div>
+            </div>
+        </section>
+
+        <!-- Invoice Details -->
+        <section class="mb-8 p-6 bg-yellow-50 rounded-lg border border-yellow-200 shadow-sm">
+            <h2 class="text-2xl font-bold text-yellow-700 mb-4">Invoice Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="invoiceNumber" class="block text-sm font-medium text-gray-700 mb-1">Invoice Number</label>
+                    <input type="text" id="invoiceNumber" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 transition duration-150 ease-in-out" placeholder="e.g., 101">
+                </div>
+                <div>
+                    <label for="invoiceDate" class="block text-sm font-medium text-gray-700 mb-1">Invoice Date</label>
+                    <input type="date" id="invoiceDate" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 transition duration-150 ease-in-out">
+                </div>
+            </div>
+        </section>
+
+        <!-- Fixed Charges -->
+        <section class="mb-8 p-6 bg-purple-50 rounded-lg border border-purple-200 shadow-sm">
+            <h2 class="text-2xl font-bold text-purple-700 mb-4">Charges</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-3">
+                    <label for="operationsDescription" class="block text-sm font-medium text-gray-700 mb-1">Operations Description</label>
+                    <input type="text" id="operationsDescription" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 transition duration-150 ease-in-out" placeholder="e.g., Description of operations performed">
+                </div>
+                <div>
+                    <label for="portalCharge" class="block text-sm font-medium text-gray-700 mb-1">Portal Charge (Rs)</label>
+                    <input ty min="0" step="0.01" value="0.00" id="portalCharge" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-right" oninput="calculateTotals()">
+                </div>
+                <div>
+                    <label for="servicesCharges" class="block text-sm font-medium text-gray-700 mb-1">Services Charges (Rs)</label>
+                    <input type="number" min="0" step="0.01" value="0.00" id="servicesCharges" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-right" oninput="calculateTotals()">
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="mb-8 p-6 bg-indigo-50 rounded-lg border border-indigo-200 shadow-sm">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-4">Summary</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                    <span class="text-lg font-medium text-gray-700">Total:</span>
+                    <span id="grandTotal" class="text-lg font-bold text-gray-900">Rs0.00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center gap-4 no-print">
+            <button id="generateInvoiceBtn" class="px-8 py-4 bg-green-600 text-white font-bold rounded-xl shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 transition duration-150 ease-in-out transform hover:scale-105">
+                Generate Invoice
+            </button>
+            <button id="clearFormBtn" class="px-8 py-4 bg-red-500 text-white font-bold rounded-xl shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-150 ease-in-out transform hover:scale-105">
+                Clear All
+            </button>
+        </div>
+    </div>
+
+    <!-- Invoice Display Area (Hidden by default, shown for printing) -->
+    <div id="invoiceOutput" class="invoice-page hidden fixed inset-0 bg-white p-10 overflow-auto z-50">
+        <div class="invoice-container border border-gray-300 rounded-lg shadow-xl p-10 max-w-4xl mx-auto bg-white">
+            <!-- Invoice content will be dynamically inserted here -->
+        </div>
+        <div class="no-print flex justify-center mt-6">
+            <button id="printInvoiceBtn" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 mr-4 transition duration-150 ease-in-out transform hover:scale-105">
+                Print Invoice
+            </button>
+            <button id="closeInvoiceBtn" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-md shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-150 ease-in-out transform hover:scale-105">
+                Close
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // Get references to all necessary DOM elements
+        const consumerNameInput = document.getElementById('consumerName');
+        const invoiceNumberInput = document.getElementById('invoiceNumber');
+        const invoiceDateInput = document.getElementById('invoiceDate');
+        const operationsDescriptionInput = document.getElementById('operationsDescription');
+        const portalChargeInput = document.getElementById('portalCharge');
+        const servicesChargesInput = document.getElementById('servicesCharges');
+        const grandTotalSpan = document.getElementById('grandTotal'); // Now acts as the main total
+
+        const generateInvoiceBtn = document.getElementById('generateInvoiceBtn');
+        const clearFormBtn = document.getElementById('clearFormBtn');
+        const invoiceOutputDiv = document.getElementById('invoiceOutput');
+        const invoiceContainer = invoiceOutputDiv.querySelector('.invoice-container');
+        const printInvoiceBtn = document.getElementById('printInvoiceBtn');
+        const closeInvoiceBtn = document.getElementById('closeInvoiceBtn');
+
+        // Fixed Company Info for Invoice Output (matching the provided image)
+        const FIXED_COMPANY_NAME = 'dastawez.in';
+        const FIXED_COMPANY_EMAIL = 'dastawez.in@gmail.com';
+        const FIXED_LOGO_URL = 'https://i.ibb.co/4wwMJCWY/logo.jpg'; // Placeholder for logo
+
+        /**
+         * Calculates the grand total based on fixed charges.
+         */
+        function calculateTotals() {
+            const portalCharge = parseFloat(portalChargeInput.value) || 0;
+            const servicesCharges = parseFloat(servicesChargesInput.value) || 0;
+            const grandTotal = portalCharge + servicesCharges;
+            grandTotalSpan.textContent = `Rs${grandTotal.toFixed(2)}`;
+        }
+
+        /**
+         * Generates the invoice HTML and displays it.
+         */
+        function generateInvoice() {
+            const invoiceDetails = {
+                number: invoiceNumberInput.value,
+                date: invoiceDateInput.value,
+            };
+            const consumerName = consumerNameInput.value;
+            const operationsDescription = operationsDescriptionInput.value;
+            const portalCharge = parseFloat(portalChargeInput.value) || 0;
+            const servicesCharges = parseFloat(servicesChargesInput.value) || 0;
+            const grandTotal = parseFloat(grandTotalSpan.textContent.replace('Rs', '')) || 0;
+
+            // Construct invoice HTML based on the provided image layout
+            let invoiceHtml = `
+                <div class="flex justify-between items-center mb-6 border-b-2 border-gray-800 pb-2">
+                    <h1 class="text-4xl font-extrabold text-gray-900">INVOICE</h1>
+                    <img src="${FIXED_LOGO_URL}" alt="DASTAWEZ Logo" class="h-20 w-20 rounded-full border border-gray-300 p-1 shadow-sm">
+                </div>
+
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <p class="text-xl font-bold text-gray-900 mb-1">${FIXED_COMPANY_NAME}</p>
+                        <p class="text-gray-700">Invoice No : ${invoiceDetails.number || 'N/A'}</p>
+                        <p class="text-gray-700">${FIXED_COMPANY_EMAIL}</p>
+                        <p class="text-gray-700">Date : ${invoiceDetails.date || 'N/A'}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-4xl font-extrabold text-gray-900">${consumerName || 'Consumer Name'}</p>
+                    </div>
+                </div>
+
+                <table class="min-w-full divide-y divide-gray-300 border border-gray-300 rounded-lg invoice-table mb-10">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider w-1/2">Operations</th>
+                            <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider w-1/4">Portal Charge</th>
+                            <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider w-1/4">Services charges</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-800">${operationsDescription || 'N/A'}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Rs${portalCharge.toFixed(2)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Rs${servicesCharges.toFixed(2)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="flex justify-end mb-10">
+                    <div class="w-full md:w-1/2">
+                        <div class="flex justify-between items-center py-4 pt-4">
+                            <span class="text-2xl font-bold text-indigo-800">TOTAL</span>
+                            <span class="text-2xl font-bold text-indigo-800">Rs${grandTotal.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-end mt-10 p-4 border-t border-gray-200">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Contact</h3>
+                        <img src="" alt="QR Code Placeholder" class="mx-auto rounded-lg shadow-sm">
+                    </div>
+                    <div class="text-center text-gray-600">
+                        <p class="text-3xl font-script italic">Thankyou</p> <!-- Using a generic italic class for font-script effect -->
+                        <img src="./" alt="Decorative Element" class="mx-auto mt-4 opacity-70">
+                    </div>
+                </div>
+            `;
+
+            // Display invoice in the hidden div
+            invoiceContainer.innerHTML = invoiceHtml;
+            invoiceOutputDiv.classList.remove('hidden');
+            // Hide the main generator form
+            document.querySelector('.no-print').classList.add('hidden');
+        }
+
+        /**
+         * Clears all input fields and resets the form.
+         */
+        function clearForm() {
+            consumerNameInput.value = '';
+            invoiceNumberInput.value = '';
+            operationsDescriptionInput.value = '';
+            portalChargeInput.value = '0.00';
+            servicesChargesInput.value = '0.00';
+            calculateTotals(); // Recalculate to show Rs0.00
+            // Reset invoice date to current date
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            invoiceDateInput.value = `${yyyy}-${mm}-${dd}`;
+        }
+
+        // Event Listeners
+        generateInvoiceBtn.addEventListener('click', generateInvoice);
+        clearFormBtn.addEventListener('click', clearForm);
+        portalChargeInput.addEventListener('input', calculateTotals);
+        servicesChargesInput.addEventListener('input', calculateTotals);
+
+        printInvoiceBtn.addEventListener('click', () => {
+            window.print();
+        });
+
+        closeInvoiceBtn.addEventListener('click', () => {
+            invoiceOutputDiv.classList.add('hidden'); // Hide the invoice
+            document.querySelector('.no-print').classList.remove('hidden'); // Show the generator form
+        });
+
+        // Initialize with default values and calculate totals on load
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateTotals();
+            // Set current date as default for invoice date
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const dd = String(today.getDate()).padStart(2, '0');
+            invoiceDateInput.value = `${yyyy}-${mm}-${dd}`;
+        });
+
+    </script>
+</body>
+</html>
