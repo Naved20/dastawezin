@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dastawez - Government Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Custom styles based on your provided color scheme */
+        .header-bg {
+            background-color: #2C3E50; /* Dark Blue from your palette */
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+            position: relative;
+        }
+        .nav-link:hover {
+            color: #18BC9C; /* Teal from your palette */
+        }
+        .btn-apply {
+            background-color: #2563EB; /* Tailwind's bg-blue-600 */
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: auto; /* Push to bottom if flex-col is used on card */
+            align-self: flex-start; /* Align to start if flex-col is used on card */
+        }
+        .btn-apply:hover {
+            background-color: #1D4ED8; /* Tailwind's bg-blue-700 */
+        }
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex; /* Enable flexbox */
+            flex-direction: column; /* Stack children vertically */
+            justify-content: space-between; /* Distribute space, pushing button to bottom */
+        }
+        .search-input {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 500px;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            border-color: #18BC9C;
+            box-shadow: 0 0 0 3px rgba(24, 188, 156, 0.3);
+            outline: none;
+        }
+        .other-services-container {
+            border: 2px dashed #18BC9C; /* Teal dashed border */
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 40px;
+            background-color: #e0f2f2; /* Light teal background */
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-animate {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .service-card {
+            transition: all 0.3s ease;
+            transform: translateY(0); /* Ensure initial state for animation */
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #F39C12; /* Orange underline */
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .footer-link {
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #18BC9C; /* Teal underline */
+            transition: width 0.3s ease;
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #F39C12; /* Orange underline for titles */
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Body background matching header/footer */
+        body {
+            background-color: #f0f2f5; /* A light grey that blends well with dark blue/grey footer */
+        }
+
+        /* Responsive menu for mobile */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background-color: #2C3E50;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-menu.active {
+            display: flex;
+        }
+        .mobile-menu a {
+            color: white;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+        .mobile-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-md sticky top-0 z-50 header-animate">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center relative">
+            <div class="logo flex items-center">
+                <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                  <img src="./img/logo.jpg" alt="Dastawez Logo" class="h-full w-full object-cover">
+                </div>
+                <h1 class="text-white text-2xl font-bold">Dasta<span class="text-yellow-400">wez</span></h1>
+            </div>
+            <button class="md:hidden text-white text-2xl focus:outline-none" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="hidden md:block" id="mainNav">
+                <ul class="flex space-x-8">
+                    <li><a href="index.html" class="text-white font-medium nav-link relative py-2">Home</a></li>
+                    <li><a href="#servicesList" class="text-white font-medium nav-link relative py-2">Services</a></li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header"
+                           class="text-white font-medium nav-link relative py-2" target="_blank" rel="noopener noreferrer">Order Now</a></li>
+                    <li><a href="contact.html" class="text-white font-medium nav-link relative py-2">Contact</a></li>
+                    <li><a href="about.html" class="text-white font-medium nav-link relative py-2">About</a></li>
+                    <li><a href="T&C.html" class="text-white font-medium nav-link relative py-2">Terms & Conditions</a></li>
+                </ul>
+            </nav>
+            <div id="mobileMenu" class="mobile-menu">
+                <a href="index.html">Home</a>
+                <a href="#servicesList">Services</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdqTnXUQh6tOCfrR3vQcl5q4clYNIFrwgXtEM6k7paOP2pwIw/viewform?usp=header" target="_blank" rel="noopener noreferrer">Order Now</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About</a>
+                <a href="T&C.html">Terms & Conditions</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-6">
+        <h1 class="text-4xl font-bold text-center mb-4 text-gray-800 section-title">Government Services</h1>
+        <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Access a comprehensive range of government services, facilitated by Dastawez, leveraging various official portals like MPOnline, e-District, and Parivahan Seva.</p>
+
+        <div class="mb-10 flex justify-center">
+            <input type="text" id="serviceSearch" class="search-input" placeholder="Search for a service or document...">
+        </div>
+
+        <div id="servicesList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+            <div class="card service-item service-card" data-title="Aadhaar Enrollment" data-description="New Aadhaar card application for individuals." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Aadhaar Enrollment (UIDAI)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a new Aadhaar card.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Aadhaar Update/Correction" data-description="Update personal details, address, or biometrics on Aadhaar." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Aadhaar Update/Correction (UIDAI)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Update personal details, address, or biometrics.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Aadhaar Download/Print" data-description="Download and print e-Aadhaar copies." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Aadhaar Download/Print (UIDAI)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Get your e-Aadhaar copy.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+             <div class="card service-item service-card" data-title="PAN Card New Application" data-description="Apply for a new Permanent Account Number (PAN) card." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">PAN Card New Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a new PAN card from the Income Tax Department.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="PAN Card Correction" data-description="Make corrections or changes to existing PAN card details." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">PAN Card Correction</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Update details on your existing PAN card.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Voter ID New Registration" data-description="Register as a new voter for Election Commission of India." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Voter ID New Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register to get your Voter ID card.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Voter ID Correction/Deletion" data-description="Correct details or request deletion of a voter ID." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Voter ID Correction/Deletion</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Update or delete your Voter ID information.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Digital Voter ID Download" data-description="Download your digital copy of Voter ID card." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Digital Voter ID Download</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Download your e-Voter ID.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="New Passport Application" data-description="Apply for a new Indian passport." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">New Passport Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for your first Indian passport.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Passport Re-issue/Renewal" data-description="Re-issue or renew an existing passport." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Passport Re-issue/Renewal</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Renew or re-issue your expired or expiring passport.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Passport PCC Application" data-description="Apply for Police Clearance Certificate (PCC) for passport." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Passport PCC Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a Police Clearance Certificate (PCC).</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Learner's Driving License" data-description="Apply for a new Learner's Driving License." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Learner's Driving License</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for your Learner's Driving License.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="New Driving License" data-description="Apply for a permanent Driving License." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">New Driving License</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a permanent Driving License after your learner's.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="DL Renewal/Duplicate" data-description="Renew an expired DL or apply for a duplicate." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">DL Renewal/Duplicate</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Renew your Driving License or get a duplicate copy.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Vehicle Registration Certificate (RC) Services" data-description="New vehicle registration, RC transfer, duplicate RC." data-category="Identity">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Vehicle RC Services (Parivahan)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">New registration, transfer, or duplicate RC.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Birth Certificate Registration" data-description="Register a new birth and obtain a birth certificate." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Birth Certificate Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register a birth and obtain the certificate.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Death Certificate Registration" data-description="Register a death and obtain a death certificate." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Death Certificate Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register a death and obtain the certificate.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Marriage Certificate Registration" data-description="Register a marriage and obtain a marriage certificate." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Marriage Certificate Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register a marriage and obtain the certificate.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Caste Certificate" data-description="Application for new caste certificates (SC/ST/OBC)." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Caste Certificate</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for new SC/ST/OBC caste certificates.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Income Certificate" data-description="Application for income certificates for various purposes." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Income Certificate</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for an income certificate.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Domicile Certificate" data-description="Application for domicile certificates (Mool Niwas)." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Domicile Certificate</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a domicile (Mool Niwas) certificate.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Creamy Layer Certificate" data-description="Application for non-creamy layer certificates for OBC category." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Creamy Layer Certificate</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for non-creamy layer certificate (OBC).</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Bonafide Certificate" data-description="Application for bonafide certificates for residents of Madhya Pradesh." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Bonafide Certificate</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a bonafide resident certificate.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Character Certificate" data-description="Application for police character verification certificate." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Character Certificate (Police)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a police character verification certificate.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="MP Public Service Guarantee Certificates" data-description="Various certificates under MP Public Service Guarantee Act." data-category="Certificates">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">MP Public Service Guarantee Certificates</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Access various certificates under the MP Public Service Guarantee Act.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Khasra/Khatauni Copy" data-description="Obtain copies of land records (Khasra and Khatauni)." data-category="Land">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Khasra/Khatauni Copy</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Get copies of land records and ownership details.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Property Mutation Application" data-description="Apply for mutation (transfer of ownership) of property." data-category="Land">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Property Mutation Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for property ownership transfer.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Land Diversion Application" data-description="Apply for land use change (diversion) from agricultural to non-agricultural." data-category="Land">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Land Diversion Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for changing land use category.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Land Demarcation Application" data-description="Request for demarcation of land boundaries." data-category="Land">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Land Demarcation Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Request official measurement of land boundaries.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Property Tax Payment" data-description="Pay property taxes online." data-category="Property">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Property Tax Payment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Pay your municipal property taxes.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Water Bill Payment" data-description="Pay water utility bills." data-category="Property">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Water Bill Payment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Pay your water consumption bills.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Trade License Application" data-description="Apply for a new trade license for businesses." data-category="Property">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Trade License Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a trade license from the municipality.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Building Permission Application" data-description="Apply for permission for new construction or alteration." data-category="Property">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Building Permission Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for permission to construct or alter a building.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Bank Account Opening Assistance" data-description="Assistance with opening new bank accounts." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Bank Account Opening Assistance</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Assistance in opening a new bank account.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="AEPS (Aadhaar Enabled Payment System)" data-description="Cash withdrawal, balance inquiry using Aadhaar." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">AEPS (Aadhaar Enabled Payment System)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Cash withdrawal and balance inquiry using Aadhaar.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Money Transfer Services" data-description="Domestic money transfer services." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Money Transfer Services</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Send money to any bank account in India.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Loan Application Assistance" data-description="Assistance with various loan applications (e.g., PM SVANidhi)." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Loan Application Assistance</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Assistance with applying for various loans.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY)" data-description="Enrollment for life insurance scheme." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">PMJJBY Enrollment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Enroll in the government's life insurance scheme.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Pradhan Mantri Suraksha Bima Yojana (PMSBY)" data-description="Enrollment for accident insurance scheme." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">PMSBY Enrollment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Enroll in the government's accident insurance scheme.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Pradhan Mantri Fasal Bima Yojana (PMFBY)" data-description="Enrollment for crop insurance scheme." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">PMFBY Enrollment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Enroll in the government's crop insurance scheme.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Atal Pension Yojana (APY) Enrollment" data-description="Enroll in the government pension scheme." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Atal Pension Yojana (APY) Enrollment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Enroll in the government-backed pension scheme.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="National Pension System (NPS) Enrollment" data-description="Enroll in the National Pension System." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">National Pension System (NPS) Enrollment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Enroll in the National Pension System.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Jeevan Pramaan (Digital Life Certificate)" data-description="Submission of digital life certificate for pensioners." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Jeevan Pramaan (Digital Life Certificate)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Submit your digital life certificate for pension.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Income Tax Return (ITR) Filing" data-description="Assistance with filing income tax returns." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Income Tax Return (ITR) Filing</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Get assistance with filing your income tax returns.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="GST Registration" data-description="Assistance with Goods and Services Tax (GST) registration." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">GST Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Assistance with Goods and Services Tax registration.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="GST Return Filing" data-description="Assistance with filing GST returns." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">GST Return Filing</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Assistance with filing your GST returns.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="EPFO UAN Activation/Linking" data-description="Activate Universal Account Number and link Aadhaar." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">EPFO UAN Activation/Linking</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Activate your UAN and link Aadhaar for EPFO services.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="EPFO Balance Check/Withdrawal" data-description="Check PF balance and apply for withdrawals." data-category="Financial">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">EPFO Balance Check/Withdrawal</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Check PF balance and assist with withdrawal claims.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Electricity Bill Payment" data-description="Pay electricity bills for various providers." data-category="Utility">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Electricity Bill Payment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Pay your electricity bills online.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Gas Bill Payment/Booking" data-description="Pay gas bills or book gas cylinders." data-category="Utility">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Gas Bill Payment/Booking</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Pay your gas bills or book gas cylinders.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Mobile Recharge/Bill Payment" data-description="Recharge mobile phones or pay postpaid bills." data-category="Utility">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Mobile Recharge/Bill Payment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Recharge your mobile or pay postpaid bills.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="DTH Recharge" data-description="Recharge DTH services for various providers." data-category="Utility">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">DTH Recharge</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Recharge your DTH services.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="FASTag Recharge" data-description="Recharge FASTag for toll payments." data-category="Utility">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">FASTag Recharge</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Recharge your FASTag for highway tolls.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Railway Ticket Booking" data-description="Book train tickets for Indian Railways." data-category="Travel">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Railway Ticket Booking (IRCTC)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Book your train tickets.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Airline Ticket Booking" data-description="Book domestic and international airline tickets." data-category="Travel">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Airline Ticket Booking</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Book domestic and international flight tickets.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Bus Ticket Booking" data-description="Book bus tickets for various routes." data-category="Travel">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Bus Ticket Booking</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Book your bus tickets for inter-city travel.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="E-Way Bill Generation" data-description="Generate e-Way Bills for goods transportation." data-category="Logistics">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">E-Way Bill Generation</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Generate e-Way Bills for goods transportation.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Postal Services" data-description="Speed Post, Registered Post, money order services." data-category="Logistics">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Postal Services (India Post)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Access Speed Post, Registered Post, and money order services.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Online Exam Applications" data-description="Assistance with applying for various competitive exams." data-category="Education">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Online Exam Applications</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Assistance with filling out online exam application forms.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Scholarship Applications" data-description="Assistance with applying for government scholarships." data-category="Education">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Scholarship Applications</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Assistance with applying for various government scholarships.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="University Enrollment/Forms" data-description="Assistance with university admission and other forms." data-category="Education">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">University Enrollment/Forms</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Assistance with university admission and other academic forms.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Employment Exchange Registration" data-description="Register with local employment exchange for job opportunities." data-category="Employment">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Employment Exchange Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register for job opportunities through the employment exchange.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Direct Benefit Transfer (DBT) Schemes" data-description="Application for various DBT linked government schemes." data-category="Welfare">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">DBT Scheme Applications</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for various Direct Benefit Transfer schemes.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Ayushman Bharat (PM-JAY) Enrollment" data-description="Enroll in the national health protection scheme." data-category="Welfare">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Ayushman Bharat (PM-JAY) Enrollment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Enroll in the national health protection scheme.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Pradhan Mantri Ujjwala Yojana (PMUY)" data-description="Apply for free LPG connections." data-category="Welfare">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">PM Ujjwala Yojana (PMUY)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for free LPG connections.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Pradhan Mantri Awas Yojana (PMAY)" data-description="Application for affordable housing scheme." data-category="Welfare">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">PM Awas Yojana (PMAY)</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for affordable housing under PMAY.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Ration Card New Application" data-description="Apply for a new ration card." data-category="Welfare">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Ration Card New Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a new ration card.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Ration Card Update/Duplicate" data-description="Update details or apply for a duplicate ration card." data-category="Welfare">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Ration Card Update/Duplicate</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Update details or get a duplicate ration card.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="Online FIR Registration" data-description="Register a First Information Report (FIR) online." data-category="Police">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Online FIR Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register a First Information Report (FIR) online.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="e-Courts Services" data-description="Check case status, court orders, cause list." data-category="Legal">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">e-Courts Services</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Check case status, court orders, and more.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Public Grievance Redressal" data-description="Submit and track grievances to government departments." data-category="Grievance">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Public Grievance Redressal</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Submit and track your grievances to government departments.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="MSME Udyam Registration" data-description="Register micro, small, and medium enterprises." data-category="Business">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">MSME Udyam Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register your Micro, Small, or Medium Enterprise.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="FSSAI Registration/License" data-description="Apply for FSSAI food business registration/license." data-category="Business">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">FSSAI Registration/License</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for FSSAI food business registration or license.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Shop & Establishment Registration" data-description="Register new shops and establishments." data-category="Business">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Shop & Establishment Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register your new shop or establishment.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Startup India Registration" data-description="Register your startup with the Startup India program." data-category="Business">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Startup India Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register your startup under the Startup India initiative.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="GeM (Government e-Marketplace) Registration" data-description="Register as a seller on GeM portal." data-category="Business">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">GeM Registration</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Register as a seller on the Government e-Marketplace.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+
+            <div class="card service-item service-card" data-title="DigiLocker Services" data-description="Access and store digital documents securely." data-category="Digital">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">DigiLocker Services</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Access and securely store your digital documents.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="e-Stamping" data-description="Obtain digital stamp papers for various agreements." data-category="Digital">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">e-Stamping</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Obtain digital stamp papers.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="e-Challan Payment" data-description="Pay traffic e-challans online." data-category="Digital">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">e-Challan Payment</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Pay your traffic e-challans online.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="e-Hospital Services" data-description="Book appointments, access reports in select hospitals." data-category="Digital">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">e-Hospital Services</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Book appointments and access reports for certain hospitals.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            <div class="card service-item service-card" data-title="Digital Signature Certificate (DSC) Application" data-description="Apply for a Digital Signature Certificate." data-category="Digital">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Digital Signature Certificate (DSC) Application</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Apply for a Digital Signature Certificate for secure transactions.</p>
+                </div>
+                <a href="#" class="btn-apply text-sm">Apply Now</a>
+            </div>
+            </div>
+
+        <div class="other-services-container">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Can't Find Your Service Here?</h3>
+            <p class="text-gray-700 mb-4">If the government service you're looking for isn't listed above, please don't hesitate to reach out! We're constantly updating our offerings and aim to facilitate a wide range of government processes for you.</p>
+            <p class="text-gray-700 font-semibold">Contact us via WhatsApp or phone for personalized assistance!</p>
+            <a href="contact.html" class="btn-apply mt-4 inline-block">Contact Us</a>
+        </div>
+
+    </div>
+
+    <footer class="bg-gray-800 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap gap-8 mb-8">
+                <div class="flex-1 min-w-[200px]">
+                    <div class="flex items-center mb-4">
+                        <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                          <img src="./img/logo.jpg" alt="Dastawez Logo" class="h-full w-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold">Dasta<span class="text-yellow-400">wez</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Your trusted partner for all document and government service needs in Anuppur, Madhya Pradesh.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://chat.whatsapp.com/ELYNoYxFIaC6p4ztD8WPQh" class="text-gray-400 hover:text-white transition" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dastawez.in?igsh=MXZnZmFoNzhuNTlncg==" class="text-gray-400 hover:text-white transition" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#servicesList" class="text-gray-400 hover:text-white footer-link">MP Online Services</a></li>
+                        <li><a href="#servicesList" class="text-gray-400 hover:text-white footer-link">Academic Forms</a></li>
+                        <li><a href="#servicesList" class="text-gray-400 hover:text-white footer-link">Document Services</a></li>
+                        <li><a href="#servicesList" class="text-gray-400 hover:text-white footer-link">Digital Services</a></li>
+                        <li><a href="#servicesList" class="text-gray-400 hover:text-white footer-link">Exam Forms</a></li>
+                        <li><a href="./invoice.html" class="text-gray-400 hover:text-white footer-link">Invoice</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white footer-link">Home</a></li>
+                        <li><a href="#servicesList" class="text-gray-400 hover:text-white footer-link">Services</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white footer-link">Contact</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white footer-link">About Us</a></li>
+                        <li><a href="T&C.html" class="text-gray-400 hover:text-white footer-link">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-400"></i>
+                            <span>Anuppur, Madhya Pradesh, India</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-blue-400"></i>
+                            <a href="tel:+917898282349" class="hover:text-white">+91-7898282349</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-blue-400"></i>
+                            <a href="mailto:dastawez.in@gmail.com" class="hover:text-white">dastawez.in@gmail.com</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-link mt-1 mr-3 text-blue-400"></i>
+                            <a href="https://linktr.ee/dastawez" class="hover:text-white" target="_blank" rel="noopener noreferrer">Link Tree</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-6 mt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Dastawez. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('serviceSearch');
+            const serviceItems = document.querySelectorAll('.service-item');
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            // Search functionality
+            searchInput.addEventListener('keyup', (event) => {
+                const searchTerm = event.target.value.toLowerCase();
+
+                serviceItems.forEach(item => {
+                    const title = item.dataset.title.toLowerCase();
+                    const description = item.dataset.description.toLowerCase();
+                    const category = item.dataset.category ? item.dataset.category.toLowerCase() : ''; // Get category
+
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || category.includes(searchTerm)) {
+                        item.style.display = 'flex'; // Use flex to maintain button position
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
