@@ -278,7 +278,7 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center relative">
             <div class="logo flex items-center">
                 <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
-                  <img src="./img/logo.jpg" alt="Dastawez Logo" class="h-full w-full object-cover">
+                  <img src="." alt="Dastawez Logo" class="h-full w-full object-cover">
                 </div>
                 <h1 class="text-white text-2xl font-bold">Dasta<span class="text-yellow-400">wez</span></h1>
             </div>
@@ -928,7 +928,7 @@
                 <h2 id="modalServiceTitle">Apply for Service</h2>
                 <button class="modal-close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <form id="applicationForm" class="modal-form"  action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST" enctype="multipart/form-data" >
+            <form id="applicationForm" class="modal-form">
                 <input type="hidden" id="hiddenServiceName" name="serviceName">
 
                 <label for="userName">Full Name:</label>
@@ -944,7 +944,7 @@
                 <input type="file" id="aadhaarUpload" name="aadhaarUpload" accept=".pdf,.jpg,.jpeg,.png" required>
                 <p class="text-gray-500 text-xs mb-4">Accepted formats: PDF, JPG, JPEG, PNG.</p>
 
-                <label for="userDocument">your passport image:</label>
+                <label for="userDocument">Other Supporting Documents (if required):</label>
                 <input type="file" id="userDocument" name="userDocument" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
                 <p class="text-gray-500 text-xs mb-4">Accepted formats: PDF, Word, JPG, PNG. Multiple files can be selected.</p>
 
@@ -1021,7 +1021,7 @@
                     <ul class="space-y-2 text-gray-400">
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-400"></i>
-                            <span>Bhopal, Madhya Pradesh, India</span>
+                            <span>Anuppur, Madhya Pradesh, India</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-phone-alt mt-1 mr-3 text-blue-400"></i>
@@ -1044,112 +1044,113 @@
             </div>
         </div>
     </footer>
-        <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('serviceSearch');
-    const serviceItems = document.querySelectorAll('.service-item');
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
 
-    const applicationModal = document.getElementById('applicationModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const modalServiceTitle = document.getElementById('modalServiceTitle');
-    const hiddenServiceName = document.getElementById('hiddenServiceName');
-    const applicationForm = document.getElementById('applicationForm');
-    const modalSuccessMessage = document.getElementById('modalSuccessMessage');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('serviceSearch');
+            const serviceItems = document.querySelectorAll('.service-item');
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
 
-    // 🔍 Search functionality
-    if (searchInput) {
-        searchInput.addEventListener('keyup', (event) => {
-            const searchTerm = event.target.value.toLowerCase();
-            serviceItems.forEach(item => {
-                const title = item.dataset.title.toLowerCase();
-                const description = item.dataset.description.toLowerCase();
-                const category = item.dataset.category ? item.dataset.category.toLowerCase() : '';
-                item.style.display = (title.includes(searchTerm) || description.includes(searchTerm) || category.includes(searchTerm)) ? 'flex' : 'none';
+            const applicationModal = document.getElementById('applicationModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const modalServiceTitle = document.getElementById('modalServiceTitle');
+            const hiddenServiceName = document.getElementById('hiddenServiceName');
+            const applicationForm = document.getElementById('applicationForm');
+            const modalSuccessMessage = document.getElementById('modalSuccessMessage');
+
+            // Search functionality
+            searchInput.addEventListener('keyup', (event) => {
+                const searchTerm = event.target.value.toLowerCase();
+
+                serviceItems.forEach(item => {
+                    const title = item.dataset.title.toLowerCase();
+                    const description = item.dataset.description.toLowerCase();
+                    const category = item.dataset.category ? item.dataset.category.toLowerCase() : ''; // Get category
+
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || category.includes(searchTerm)) {
+                        item.style.display = 'flex'; // Use flex to maintain button position
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+
+            // Modal functionality
+            document.querySelectorAll('.apply-now-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    const serviceName = e.target.dataset.serviceName;
+                    modalServiceTitle.textContent = `Apply for ${serviceName}`;
+                    hiddenServiceName.value = serviceName; // Set hidden input value
+                    applicationModal.classList.add('active');
+                    modalSuccessMessage.style.display = 'none'; // Hide success message on new open
+                    applicationForm.reset(); // Reset form fields
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                applicationModal.classList.remove('active');
+            });
+
+            // Close modal if clicked outside content
+            applicationModal.addEventListener('click', (e) => {
+                if (e.target === applicationModal) {
+                    applicationModal.classList.remove('active');
+                }
+            });
+
+            // Handle form submission
+            applicationForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent actual form submission
+
+                const userName = document.getElementById('userName').value;
+                const userPhone = document.getElementById('userPhone').value;
+                const userEmail = document.getElementById('userEmail').value;
+                const aadhaarUpload = document.getElementById('aadhaarUpload').files;
+                const serviceName = document.getElementById('hiddenServiceName').value;
+                const userDocument = document.getElementById('userDocument').files; // Get other file list
+
+                console.log('Application Submitted:');
+                console.log('Service:', serviceName);
+                console.log('Applicant Name:', userName);
+                console.log('Phone Number:', userPhone);
+                console.log('Email ID:', userEmail);
+                if (aadhaarUpload.length > 0) {
+                    console.log('Aadhaar Card Uploaded:', Array.from(aadhaarUpload).map(file => file.name));
+                } else {
+                    console.log('No Aadhaar card uploaded.');
+                }
+                if (userDocument.length > 0) {
+                    console.log('Other Documents Uploaded:', Array.from(userDocument).map(file => file.name));
+                } else {
+                    console.log('No other documents uploaded.');
+                }
+
+                // In a real application, you would send this data to a server here.
+                // For this example, we'll just show a success message.
+
+                modalSuccessMessage.style.display = 'block'; // Show success message
+                applicationForm.reset(); // Clear the form after "submission"
+                // Optionally, you can set a timeout to close the modal automatically
+                setTimeout(() => {
+                    applicationModal.classList.remove('active');
+                    modalSuccessMessage.style.display = 'none'; // Hide message for next time
+                }, 3000); // Close after 3 seconds
             });
         });
-    }
-
-    // 📱 Mobile menu toggle
-    if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-            });
-        });
-    }
-
-    // 📋 Modal open with service name
-    document.querySelectorAll('.apply-now-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const serviceName = button.getAttribute('data-service-name');
-            modalServiceTitle.textContent = `Apply for ${serviceName}`;
-            hiddenServiceName.value = serviceName;
-            applicationModal.classList.add('active');
-            modalSuccessMessage.style.display = 'none';
-            applicationForm.reset();
-        });
-    });
-
-    // ❌ Close modal
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', () => {
-            applicationModal.classList.remove('active');
-        });
-    }
-
-    // 🖱️ Close modal if clicked outside the content
-    applicationModal.addEventListener('click', (e) => {
-        if (e.target === applicationModal) {
-            applicationModal.classList.remove('active');
-        }
-    });
-
-    // ✅ Form submission handling
-    applicationForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const userName = document.getElementById('userName').value;
-        const userPhone = document.getElementById('userPhone').value;
-        const userEmail = document.getElementById('userEmail').value;
-        const aadhaarUpload = document.getElementById('aadhaarUpload').files;
-        const serviceName = hiddenServiceName.value;
-        const userDocument = document.getElementById('userDocument').files;
-
-        console.log('Application Submitted:');
-        console.log('Service:', serviceName);
-        console.log('Applicant Name:', userName);
-        console.log('Phone Number:', userPhone);
-        console.log('Email ID:', userEmail);
-
-        if (aadhaarUpload.length > 0) {
-            console.log('Aadhaar Card:', Array.from(aadhaarUpload).map(file => file.name));
-        } else {
-            console.log('No Aadhaar uploaded.');
-        }
-
-        if (userDocument.length > 0) {
-            console.log('Other Docs:', Array.from(userDocument).map(file => file.name));
-        } else {
-            console.log('No other docs uploaded.');
-        }
-
-        // ✅ Show success message (simulate form submission)
-        modalSuccessMessage.style.display = 'block';
-        applicationForm.reset();
-
-        setTimeout(() => {
-            applicationModal.classList.remove('active');
-            modalSuccessMessage.style.display = 'none';
-        }, 3000);
-    });
-});
-</script>
+    </script>
 </body>
 </html>
