@@ -928,7 +928,7 @@
                 <h2 id="modalServiceTitle">Apply for Service</h2>
                 <button class="modal-close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <form id="applicationForm" class="modal-form"  action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST" enctype="multipart/form-data" >
+            <form id="applicationForm" class="modal-form"  action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST" enctype="multipart/form-data">
                 <input type="hidden" id="hiddenServiceName" name="serviceName">
 
                 <label for="userName">Full Name:</label>
@@ -1002,145 +1002,37 @@
                         <li><a href="./invoice.html" class="text-gray-400 hover:text-white footer-link">Invoice</a></li>
                     </ul>
                 </div>
-
-                <!-- Quick Links Column -->
-                <div class="flex-1 min-w-[200px]">
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-white footer-link">Home</a></li>
-                        <li><a href="#servicesList" class="text-gray-400 hover:text-white footer-link">Services</a></li>
-                        <li><a href="contact.html" class="text-gray-400 hover:text-white footer-link">Contact</a></li>
-                        <li><a href="about.html" class="text-gray-400 hover:text-white footer-link">About Us</a></li>
-                        <li><a href="T&C.html" class="text-gray-400 hover:text-white footer-link">Terms & Conditions</a></li>
-                    </ul>
                 </div>
-
-                <!-- Contact Column -->
-                <div class="flex-1 min-w-[200px]">
-                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-400"></i>
-                            <span>Bhopal, Madhya Pradesh, India</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-phone-alt mt-1 mr-3 text-blue-400"></i>
-                            <a href="tel:+917898282349" class="hover:text-white">+91-7898282349</a>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-envelope mt-1 mr-3 text-blue-400"></i>
-                            <a href="mailto:dastawez.in@gmail.com" class="hover:text-white">dastawez.in@gmail.com</a>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-link mt-1 mr-3 text-blue-400"></i>
-                            <a href="https://linktr.ee/dastawez" class="hover:text-white" target="_blank" rel="noopener noreferrer">Link Tree</a>
-                        </li>
-                    </ul>
                 </div>
-            </div>
-
-            <div class="pt-6 mt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
-                <p>&copy; 2025 Dastawez. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-        <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('serviceSearch');
-    const serviceItems = document.querySelectorAll('.service-item');
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    const applicationModal = document.getElementById('applicationModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const modalServiceTitle = document.getElementById('modalServiceTitle');
-    const hiddenServiceName = document.getElementById('hiddenServiceName');
-    const applicationForm = document.getElementById('applicationForm');
-    const modalSuccessMessage = document.getElementById('modalSuccessMessage');
-
-    // 🔍 Search functionality
-    if (searchInput) {
-        searchInput.addEventListener('keyup', (event) => {
-            const searchTerm = event.target.value.toLowerCase();
-            serviceItems.forEach(item => {
-                const title = item.dataset.title.toLowerCase();
-                const description = item.dataset.description.toLowerCase();
-                const category = item.dataset.category ? item.dataset.category.toLowerCase() : '';
-                item.style.display = (title.includes(searchTerm) || description.includes(searchTerm) || category.includes(searchTerm)) ? 'flex' : 'none';
-            });
-        });
-    }
-
-    // 📱 Mobile menu toggle
-    if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-            });
-        });
-    }
-
-    // 📋 Modal open with service name
+                </footer>
+                <script>
+    // Open modal and insert service name
     document.querySelectorAll('.apply-now-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const serviceName = button.getAttribute('data-service-name');
-            modalServiceTitle.textContent = `Apply for ${serviceName}`;
-            hiddenServiceName.value = serviceName;
-            applicationModal.classList.add('active');
-            modalSuccessMessage.style.display = 'none';
-            applicationForm.reset();
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // prevent default anchor behavior
+
+            const serviceName = this.getAttribute('data-service-name');
+            document.getElementById('modalServiceTitle').innerText = `Apply for ${serviceName}`;
+            document.getElementById('hiddenServiceName').value = serviceName;
+
+            // Show the modal
+            document.getElementById('applicationModal').classList.add('active');
         });
     });
 
-    // ❌ Close modal
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', () => {
-            applicationModal.classList.remove('active');
-        });
-    }
+    // Close modal button
+    document.getElementById('closeModalBtn').addEventListener('click', function () {
+        document.getElementById('applicationModal').classList.remove('active');
+    });
 
-    // 🖱️ Close modal if clicked outside the content
-    applicationModal.addEventListener('click', (e) => {
-        if (e.target === applicationModal) {
-            applicationModal.classList.remove('active');
+    // Optional: Close modal when clicking outside the form content
+    document.getElementById('applicationModal').addEventListener('click', function (e) {
+        if (e.target === this) {
+            this.classList.remove('active');
         }
     });
 
-    // ✅ Form submission handling
-    applicationForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const userName = document.getElementById('userName').value;
-        const userPhone = document.getElementById('userPhone').value;
-        const userEmail = document.getElementById('userEmail').value;
-        const aadhaarUpload = document.getElementById('aadhaarUpload').files;
-        const serviceName = hiddenServiceName.value;
-        const userDocument = document.getElementById('userDocument').files;
-
-        console.log('Application Submitted:');
-        console.log('Service:', serviceName);
-        console.log('Applicant Name:', userName);
-        console.log('Phone Number:', userPhone);
-        console.log('Email ID:', userEmail);
-
-        if (aadhaarUpload.length > 0) {
-            console.log('Aadhaar Card:', Array.from(aadhaarUpload).map(file => file.name));
-        } else {
-            console.log('No Aadhaar uploaded.');
-        }
-
-        if (userDocument.length > 0) {
-            console.log('Other Docs:', Array.from(userDocument).map(file => file.name));
-        } else {
-            console.log('No other docs uploaded.');
-        }
-
-        // ✅ Show success message (simulate form submission)
+      // ✅ Show success message (simulate form submission)
         modalSuccessMessage.style.display = 'block';
         applicationForm.reset();
 
@@ -1148,8 +1040,6 @@
             applicationModal.classList.remove('active');
             modalSuccessMessage.style.display = 'none';
         }, 3000);
-    });
-});
+    
 </script>
 </body>
-</html>
