@@ -231,6 +231,8 @@
             color: #333;
         }
         .modal-form input[type="text"],
+        .modal-form input[type="tel"],
+        .modal-form input[type="email"],
         .modal-form input[type="file"] {
             width: 100%;
             padding: 10px;
@@ -929,10 +931,20 @@
             <form id="applicationForm" class="modal-form">
                 <input type="hidden" id="hiddenServiceName" name="serviceName">
 
-                <label for="userName">Your Name:</label>
+                <label for="userName">Full Name:</label>
                 <input type="text" id="userName" name="userName" placeholder="Enter your full name" required>
 
-                <label for="userDocument">Upload Document (if required):</label>
+                <label for="userPhone">Phone Number:</label>
+                <input type="tel" id="userPhone" name="userPhone" placeholder="e.g., +919876543210" required>
+
+                <label for="userEmail">Email ID:</label>
+                <input type="email" id="userEmail" name="userEmail" placeholder="e.g., yourname@example.com" required>
+
+                <label for="aadhaarUpload">Upload Aadhaar Card:</label>
+                <input type="file" id="aadhaarUpload" name="aadhaarUpload" accept=".pdf,.jpg,.jpeg,.png" required>
+                <p class="text-gray-500 text-xs mb-4">Accepted formats: PDF, JPG, JPEG, PNG.</p>
+
+                <label for="userDocument">Other Supporting Documents (if required):</label>
                 <input type="file" id="userDocument" name="userDocument" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
                 <p class="text-gray-500 text-xs mb-4">Accepted formats: PDF, Word, JPG, PNG. Multiple files can be selected.</p>
 
@@ -1105,16 +1117,26 @@
                 e.preventDefault(); // Prevent actual form submission
 
                 const userName = document.getElementById('userName').value;
+                const userPhone = document.getElementById('userPhone').value;
+                const userEmail = document.getElementById('userEmail').value;
+                const aadhaarUpload = document.getElementById('aadhaarUpload').files;
                 const serviceName = document.getElementById('hiddenServiceName').value;
-                const userDocument = document.getElementById('userDocument').files; // Get file list
+                const userDocument = document.getElementById('userDocument').files; // Get other file list
 
                 console.log('Application Submitted:');
                 console.log('Service:', serviceName);
                 console.log('Applicant Name:', userName);
-                if (userDocument.length > 0) {
-                    console.log('Documents Uploaded:', Array.from(userDocument).map(file => file.name));
+                console.log('Phone Number:', userPhone);
+                console.log('Email ID:', userEmail);
+                if (aadhaarUpload.length > 0) {
+                    console.log('Aadhaar Card Uploaded:', Array.from(aadhaarUpload).map(file => file.name));
                 } else {
-                    console.log('No documents uploaded.');
+                    console.log('No Aadhaar card uploaded.');
+                }
+                if (userDocument.length > 0) {
+                    console.log('Other Documents Uploaded:', Array.from(userDocument).map(file => file.name));
+                } else {
+                    console.log('No other documents uploaded.');
                 }
 
                 // In a real application, you would send this data to a server here.
