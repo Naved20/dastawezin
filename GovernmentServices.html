@@ -928,7 +928,7 @@
                 <h2 id="modalServiceTitle">Apply for Service</h2>
                 <button class="modal-close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <form id="applicationForm" class="modal-form"  action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST" >
+            <form id="applicationForm" class="modal-form" action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST">
                 <input type="hidden" id="hiddenServiceName" name="serviceName">
 
                 <label for="userName">Full Name:</label>
@@ -940,19 +940,17 @@
                 <label for="userEmail">Email ID:</label>
                 <input type="email" id="userEmail" name="userEmail" placeholder="e.g., yourname@example.com" required>
 
-                <label for="aadhaarUpload">Upload Aadhaar Card:</label>
-                <input type="file" id="aadhaarUpload" name="aadhaarUpload" accept=".pdf,.jpg,.jpeg,.png" required>
-                <p class="text-gray-500 text-xs mb-4">Accepted formats: PDF, JPG, JPEG, PNG.</p>
-
-                <label for="userDocument">your passport image:</label>
-                <input type="file" id="userDocument" name="userDocument" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
-                <p class="text-gray-500 text-xs mb-4">Accepted formats: PDF, Word, JPG, PNG. Multiple files can be selected.</p>
-
+                <label for="timeSlot">Preferred Time Slot:</label>
+                <select id="timeSlot" name="timeSlot" required>
+                    </select>
+                
                 <button type="submit">Submit Application</button>
                 <div id="modalSuccessMessage" class="modal-success-message">
                     Application submitted successfully! We will contact you soon.
                 </div>
             </form>
+            
+
         </div>
     </div>
 
@@ -1144,6 +1142,58 @@
             applicationModal.classList.remove('active');
             modalSuccessMessage.style.display = 'none';
         }, 3000);
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const timeSlotSelect = document.getElementById('timeSlot');
+
+        function populateTimeSlots() {
+            // Clear existing options
+            timeSlotSelect.innerHTML = '';
+
+            const now = new Date();
+            // Calculate the start time for slots (current hour + 1)
+            let startHour = now.getHours() + 1;
+            // If it's already past 11 PM (23:00), the next day's slots should start
+            if (startHour >= 24) {
+                startHour = startHour - 24; // Reset to 0 for next day
+                // You might want to adjust the date here if you want to show full day slots
+                // For simplicity, we'll just show the next hour forward on the current day
+                // but the time logic will correctly roll over if you go past midnight.
+            }
+
+            // Add a default "Select a time" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "Select a time slot";
+            defaultOption.disabled = true; // Make it non-selectable
+            defaultOption.selected = true; // Make it the initially selected option
+            timeSlotSelect.appendChild(defaultOption);
+
+
+            // Generate time slots for the next 24 hours (or however many you want)
+            for (let i = 0; i < 24; i++) { // Generate 24 hourly slots
+                let hour = (startHour + i) % 24; // Ensure hours wrap around 24 (0-23)
+                const displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour); // Convert to 12-hour format
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+
+                const timeValue = String(hour).padStart(2, '0') + ':00'; // Value for backend (e.g., "17:00")
+                const displayText = `${displayHour}:00 ${ampm}`; // Display for user (e.g., "5:00 PM")
+
+                const option = document.createElement('option');
+                option.value = timeValue;
+                option.textContent = displayText;
+
+                timeSlotSelect.appendChild(option);
+            }
+        }
+
+        // Populate slots when the page loads
+        populateTimeSlots();
+
+        // Optional: Re-populate if the user keeps the form open for a long time
+        // setInterval(populateTimeSlots, 3600000); // Update every hour
     });
 
 </script>
