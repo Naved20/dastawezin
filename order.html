@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .form-group small {
+            color: #888;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+        .submit-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .success-message {
+            color: green;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Service Request Form 🛠️</h2>
+
+
+
+        <form id="serviceRequestForm" action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST">
+                   <input type="hidden" name="order_form" value="Service Request">
+            <div class="form-group">
+                <label for="fullName">Full Name</span></label>
+                <input type="text" id="fullName" name="full_Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</span></label>
+                <input type="tel" id="phoneNumber" name="phone_Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</span></label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="serviceNeeded">Service Needed</span></label>
+                <input type="text" id="services needed" name="services needed" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message (Optional)</label>
+                <textarea id="message" name="message" rows="4"></textarea>
+                <small>Provide any additional details about your request.</small>
+            </div>
+
+            <button type="submit" class="submit-button">Submit Request</button>
+            <div id="formMessages"></div>
+        </form>
+    </div>
+
+    
+</body>
+
+
+
+</html>
