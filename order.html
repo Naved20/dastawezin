@@ -3,138 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/jpg" href="img/logo.jpg" />
     <title>Service Request Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-        .form-container h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: bold;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="tel"],
-        .form-group input[type="email"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        .form-group input[type="text"]:focus,
-        .form-group input[type="tel"]:focus,
-        .form-group input[type="email"]:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .form-group small {
-            color: #888;
-            font-size: 12px;
-            display: block;
-            margin-top: 5px;
-        }
-        .submit-button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .submit-button:hover {
-            background-color: #0056b3;
-        }
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .success-message {
-            color: green;
-            font-size: 16px;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
 </head>
-<body>
-    <div class="form-container">
-        <h2>Service Request Form 🛠️</h2>
+<style>
+    @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header-animate {
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #f59e0b;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .footer-link {
+            position: relative;
+        }
+        
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .footer-link:hover::after {
+            width: 100%;
+        }
+        
+        .contact-card {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #f59e0b;
+            margin: 12px auto 0;
+        }
+</style>
 
 
 
-        <form id="serviceRequestForm" action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST">
-                   <input type="hidden" name="order_form" value="Service Request">
-            <div class="form-group">
-                <label for="fullName">Full Name</span></label>
-                <input type="text" id="fullName" name="full_Name" required>
-            </div>
 
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number</span></label>
-                <input type="tel" id="phoneNumber" name="phone_Number" required>
-            </div>
 
-            <div class="form-group">
-                <label for="email">Email</span></label>
-                <input type="email" id="email" name="email" required>
-            </div>
 
-            <div class="form-group">
-                <label for="serviceNeeded">Service Needed</span></label>
-                <input type="text" id="services needed" name="services needed" required>
-            </div>
-
-            <div class="form-group">
-                <label for="message">Message (Optional)</label>
-                <textarea id="message" name="message" rows="4"></textarea>
-                <small>Provide any additional details about your request.</small>
-            </div>
-
-            <button type="submit" class="submit-button">Submit Request</button>
-            <div id="formMessages"></div>
-        </form>
-    </div>
-
+    <body class="bg-gray-50 text-gray-800 font-sans">
+    <header class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-md sticky top-0 z-50 header-animate">
+           <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+               <div class="logo flex items-center">
+                   <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                     <img src="./img/logo.jpg" alt="Logo" class="h-full w-full object-cover">
+                   </div>
     
+                   <h1 class="text-white text-2xl font-bold">Dasta<span class="text-yellow-400">wez</span></h1>
+               </div>
+               <button class="md:hidden text-white text-2xl focus:outline-none" id="menuBtn">
+                   <i class="fas fa-bars"></i>
+               </button>
+               <nav class="hidden md:block" id="mainNav">
+                   <ul class="flex space-x-8">
+                       <li><a href="#home" class="text-white font-medium nav-link relative py-2">Home</a></li>
+                       <li><a href="#services" class="text-white font-medium nav-link relative py-2">Services</a></li>
+                       <!-- <li><a href="./order.html" 
+                              class="text-white font-medium nav-link relative py-2">Order Now</a></li> -->
+                       <li><a href="#contact" class="text-white font-medium nav-link relative py-2">Contact</a></li>
+                       <li><a href="./about.html" class="text-white font-medium nav-link relative py-2">About</a></li>
+                       <li><a href="./T&C.html" class="text-white font-medium nav-link relative py-2">Terms & Conditions</a></li>
+                   </ul>
+               </nav>
+           </div>
+       </header>
+    <section id="contact" class="py-16 bg-white w-full max-w-3xl mx-auto rounded-xl p-8 shadow-sm">
+        <h3 class="text-xl font-semibold mb-6 text-center text-gray-800">Place Your Order</h3>
+        <form class="space-y-4" action="https://formsubmit.co/6fa3378a3b6dc3ecbbe3973ab810dcb3" method="POST">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" name="Send your query">
+                <div>
+                    <label for="name" class="block text-gray-700 mb-2">Your Name</label>
+                    <input type="text" id="name" name="user_name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                </div>
+                <div>
+                    <label for="phone" class="block text-gray-700 mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone_number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                </div>
+            </div>
+            <div>
+                <label for="email" class="block text-gray-700 mb-2">Email Address</label>
+                <input type="email" id="email" name="email_address" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+            <div>
+                <label for="ServiceName" class="block text-gray-700 mb-2">Service Name</label>
+                <input type="text" id="ServiceName" name="ServiceName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+            <div>
+                <label for="message" class="block text-gray-700 mb-2">Your Message</label>
+                <textarea id="message" name="user_message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition resize-y"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300">
+                Place Order <i class="fas fa-paper-plane ml-2"></i>
+            </button>
+        </form>
+    </section>
+      <footer class="bg-gray-800 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap gap-8 mb-8">
+                <!-- About Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <div class="flex items-center mb-4">
+                        <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                          <img src="./img/logo.jpg" alt="" class="h-full w-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold">Dasta<span class="text-yellow-400">wez</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Your trusted partner for all document and government service needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://chat.whatsapp.com/ELYNoYxFIaC6p4ztD8WPQh" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dastawez.in?igsh=MXZnZmFoNzhuNTlncg==" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Services Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">MP Online Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Academic Forms</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Document Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Digital Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Exam Forms</a></li>
+                        <li><a href="./invoice.html" class="text-gray-400 hover:text-white footer-link">Invoice</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Quick Links Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white footer-link">Home</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white footer-link">Services</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white footer-link">Contact</a></li>
+                        <li><a href="./about.html" class="text-gray-400 hover:text-white footer-link">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-400"></i>
+                            <span>Bhopal, Madhya Pradesh, India</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-blue-400"></i>
+                            <a href="tel:+917898282349" class="hover:text-white">+91-7898282349</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-blue-400"></i>
+                            <a href="mailto:dastawez.in@gmail.com" class="hover:text-white">dastawez.in@gmail.com</a>
+                        </li>
+                         <li class="flex items-start">
+                            <i class="fas fa-tree mt-1 mr-3 text-blue-400"></i>
+                            <a href="https://linktr.ee/dastawez" class="hover:text-white">Link Tree</a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                      
+
+
+
+
+            
+            
+            <div class="pt-6 mt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Dastawez. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
 </body>
-
-
+<script>
+     
+            // Mobile menu toggle
+            const menuBtn = document.getElementById('menuBtn');
+            const mainNav = document.getElementById('mainNav');
+            
+            if (menuBtn && mainNav) {
+                menuBtn.addEventListener('click', function() {
+                    mainNav.classList.toggle('hidden');
+                    mainNav.classList.toggle('md:block');
+                    
+                    // For mobile menu positioning
+                    if (window.innerWidth < 768) {
+                        if (!mainNav.classList.contains('absolute')) {
+                            mainNav.classList.add('absolute', 'top-full', 'left-0', 'w-full', 'bg-blue-800', 'bg-opacity-95', 'backdrop-blur-sm', 'px-5', 'py-3', 'shadow-lg');
+                            const navList = mainNav.querySelector('ul');
+                            navList.classList.add('flex', 'flex-col', 'space-y-3');
+                        }
+                    }
+                });
+            }
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('#mainNav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 768) {
+                        mainNav.classList.add('hidden');
+                        mainNav.classList.remove('md:block');
+                    }
+                });
+            });
+</script>
 
 </html>
