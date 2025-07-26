@@ -3,66 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PYQ Repository</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>PYQ Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Optional custom styles if needed, otherwise Tailwind handles most */
+         img {
+      -webkit-user-drag: none;
+      user-drag: none;
+      pointer-events: none; /* Optional: disables mouse interaction */
+    }
+
+          .img-wrapper {
+        position: relative;
+      }
+      
+      .watermark {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 70px;
+        opacity: 0.6;
+        pointer-events: none;
+      } 
+      
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
-
+<body class="bg-gray-100 font-sans" oncontextmenu="return false;">
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold text-center mb-8">Previous Year Question Papers</h1>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">SOIT Previous Year Question Papers</h1>
 
-        <div class="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-wrap gap-4 justify-center">
-            <div class="filter-group">
-                <label for="semester" class="block text-gray-700 text-sm font-bold mb-2">Semester:</label>
-                <select id="semester" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="all">All</option>
-                    <option value="1">Semester 1</option>
-                    <option value="2">Semester 2</option>
-                    <option value="3">Semester 3</option>
-                    <option value="4">Semester 4</option>
-                    <option value="5">Semester 5</option>
-                    <option value="6">Semester 6</option>
-                    <option value="7">Semester 7</option>
-                    <option value="8">Semester 8</option>
-                </select>
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="semester" class="block text-gray-700 text-sm font-bold mb-2">Semester:</label>
+                    <select id="semester" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Select Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="branch" class="block text-gray-700 text-sm font-bold mb-2">Branch:</label>
+                    <select id="branch" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Select Branch</option>
+                        <option value="CSBS">CSBS</option>
+                        <option value="CSDS">CSDS</option>
+                        <option value="AIML">AIML</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="year" class="block text-gray-700 text-sm font-bold mb-2">Year:</label>
+                    <select id="year" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Select Year</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="filter-group">
-                <label for="branch" class="block text-gray-700 text-sm font-bold mb-2">Branch:</label>
-                <select id="branch" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="all">All</option>
-                    <option value="CSBS">CSBS</option>
-                    <option value="CSDS">CSDS</option>
-                    <option value="AIML">AIML</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="year" class="block text-gray-700 text-sm font-bold mb-2">Year:</label>
-                <select id="year" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="all">All</option>
-                    <option value="2025">2025</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                </select>
+            <div class="mt-6 text-center">
+                <button id="applyFilter" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                    Apply Filter
+                </button>
+                <button id="resetFilter" class="ml-4 bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">
+                    Reset Filter
+                </button>
             </div>
         </div>
 
-        <div id="pyq-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="pyq-item bg-white p-4 rounded-lg shadow-md" data-semester="1" data-branch="CSBS" data-year="2023">
-                <img src="https://via.placeholder.com/300x400?text=CSBS_Sem1_2023_PYQ" alt="CSBS Sem 1 2023 PYQ" class="w-full h-auto rounded mb-2">
-                <p class="text-gray-800 font-semibold">CSBS - Semester 1 (2023)</p>
+        <div id="pyqContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+           <div class="pyq-item bg-white p-4 rounded-lg shadow-md hidden" data-semester="1" data-branch="CSBS" data-year="2023">
+              <h3 class="text-lg font-semibold mb-2">CSBS Sem 1 (2023) - Maths</h3>
+             <div class="img-wrapper">
+               <img src="./img/Credentialing & Contracting Services - MedConverge.jpeg" class="w-full h-48 object-cover rounded-md mb-2">
+                         
+               <!-- Watermark 1 - Top Left -->
+               <img src="./img/logo.jpg" class="watermark" style="top: 10px; left: 10px; right: auto; bottom: auto;" />
+                         
+               <!-- Watermark 2 - Center -->
+               <img src="./img/logo.jpg" class="watermark" style="top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+                         
+               <!-- Watermark 3 - Bottom Right (default) -->
+               <img src="./img/logo.jpg" class="watermark" />
+             </div>
+
             </div>
-            <div class="pyq-item bg-white p-4 rounded-lg shadow-md" data-semester="2" data-branch="CSDS" data-year="2024">
-                <img src="https://via.placeholder.com/300x400?text=CSDS_Sem2_2024_PYQ" alt="CSDS Sem 2 2024 PYQ" class="w-full h-auto rounded mb-2">
-                <p class="text-gray-800 font-semibold">CSDS - Semester 2 (2024)</p>
+
+            <div class="pyq-item bg-white p-4 rounded-lg wn-md hidden" data-semester="2" data-branch="CSDS" data-year="2024">
+                <h3 class="text-lg font-semibold mb-2">CSDS Sem 2 (2024) - Programming</h3>
+                <img src="./img/mp online.jpeg" alt="CSDS Sem 2 2024 Programming PYQ" class="w-full h-48 object-cover rounded-md mb-2">
             </div>
-            <div class="pyq-item bg-white p-4 rounded-lg shadow-md" data-semester="3" data-branch="AIML" data-year="2025">
-                <img src="https://via.placeholder.com/300x400?text=AIML_Sem3_2025_PYQ" alt="AIML Sem 3 2025 PYQ" class="w-full h-auto rounded mb-2">
-                <p class="text-gray-800 font-semibold">AIML - Semester 3 (2025)</p>
+            <div class="pyq-item bg-white p-4 rounded-lg shadow-md hidden" data-semester="3" data-branch="AIML" data-year="2025">
+                <h3 class="text-lg font-semibold mb-2">AIML Sem 3 (2025) - AI Basics</h3>
+                <img src="https://via.placeholder.com/300x200?text=AIML_Sem3_2025_AIBasics" alt="AIML Sem 3 2025 AI Basics PYQ" class="w-full h-48 object-cover rounded-md mb-2">
+            </div>
+            <div class="pyq-item bg-white p-4 rounded-lg shadow-md hidden" data-semester="1" data-branch="CSBS" data-year="2024">
+                <h3 class="text-lg font-semibold mb-2">CSBS Sem 1 (2024) - Chemistry</h3>
+                <img src="https://via.placeholder.com/300x200?text=CSBS_Sem1_2024_Chemistry" alt="CSBS Sem 1 2024 Chemistry PYQ" class="w-full h-48 object-cover rounded-md mb-2">
+            </div>
+            <div class="pyq-item bg-white p-4 rounded-lg shadow-md hidden" data-semester="4" data-branch="CSDS" data-year="2023">
+                <h3 class="text-lg font-semibold mb-2">CSDS Sem 4 (2023) - Data Structures</h3>
+                <img src="https://via.placeholder.com/300x200?text=CSDS_Sem4_2023_DS" alt="CSDS Sem 4 2023 Data Structures PYQ" class="w-full h-48 object-cover rounded-md mb-2">
+            </div>
+            <div class="pyq-item bg-white p-4 rounded-lg shadow-md hidden" data-semester="5" data-branch="AIML" data-year="2024">
+                <h3 class="text-lg font-semibold mb-2">AIML Sem 5 (2024) - Machine Learning</h3>
+                <img src="https://via.placeholder.com/300x200?text=AIML_Sem5_2024_ML" alt="AIML Sem 5 2024 Machine Learning PYQ" class="w-full h-48 object-cover rounded-md mb-2">
             </div>
             </div>
     </div>
@@ -72,9 +125,11 @@
             const semesterFilter = document.getElementById('semester');
             const branchFilter = document.getElementById('branch');
             const yearFilter = document.getElementById('year');
+            const applyFilterBtn = document.getElementById('applyFilter');
+            const resetFilterBtn = document.getElementById('resetFilter');
             const pyqItems = document.querySelectorAll('.pyq-item');
 
-            function applyFilters() {
+            const filterPYQs = () => {
                 const selectedSemester = semesterFilter.value;
                 const selectedBranch = branchFilter.value;
                 const selectedYear = yearFilter.value;
@@ -84,25 +139,32 @@
                     const itemBranch = item.dataset.branch;
                     const itemYear = item.dataset.year;
 
-                    const matchesSemester = (selectedSemester === 'all' || itemSemester === selectedSemester);
-                    const matchesBranch = (selectedBranch === 'all' || itemBranch === selectedBranch);
-                    const matchesYear = (selectedYear === 'all' || itemYear === selectedYear);
+                    const semesterMatch = selectedSemester === '' || itemSemester === selectedSemester;
+                    const branchMatch = selectedBranch === '' || itemBranch === selectedBranch;
+                    const yearMatch = selectedYear === '' || itemYear === selectedYear;
 
-                    if (matchesSemester && matchesBranch && matchesYear) {
-                        item.style.display = 'block'; // Show the item
+                    if (semesterMatch && branchMatch && yearMatch) {
+                        item.classList.remove('hidden');
                     } else {
-                        item.style.display = 'none'; // Hide the item
+                        item.classList.add('hidden');
                     }
                 });
-            }
+            };
 
-            // Add event listeners to filters
-            semesterFilter.addEventListener('change', applyFilters);
-            branchFilter.addEventListener('change', applyFilters);
-            yearFilter.addEventListener('change', applyFilters);
+            const resetFilters = () => {
+                semesterFilter.value = '';
+                branchFilter.value = '';
+                yearFilter.value = '';
+                pyqItems.forEach(item => {
+                    item.classList.remove('hidden'); // Show all items when filters are reset
+                });
+            };
 
-            // Initial filter application on page load
-            applyFilters();
+            applyFilterBtn.addEventListener('click', filterPYQs);
+            resetFilterBtn.addEventListener('click', resetFilters);
+
+            // Initially show all items
+            resetFilters();
         });
     </script>
 </body>
