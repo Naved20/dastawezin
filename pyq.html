@@ -663,6 +663,75 @@
             // Initially show all items
             resetFilters();
         });
+  
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuBtn = document.getElementById('menuBtn');
+            const mainNav = document.getElementById('mainNav');
+            
+            if (menuBtn && mainNav) {
+                menuBtn.addEventListener('click', function() {
+                    mainNav.classList.toggle('hidden');
+                    mainNav.classList.toggle('md:block');
+                    
+                    // For mobile menu positioning
+                    if (window.innerWidth < 768) {
+                        if (!mainNav.classList.contains('absolute')) {
+                            mainNav.classList.add('absolute', 'top-full', 'left-0', 'w-full', 'bg-blue-800', 'bg-opacity-95', 'backdrop-blur-sm', 'px-5', 'py-3', 'shadow-lg');
+                            const navList = mainNav.querySelector('ul');
+                            navList.classList.add('flex', 'flex-col', 'space-y-3');
+                        }
+                    }
+                });
+            }
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('#mainNav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 768) {
+                        mainNav.classList.add('hidden');
+                        mainNav.classList.remove('md:block');
+                    }
+                });
+            });
+            
+            // FAQ accordion functionality
+            const faqButtons = document.querySelectorAll('.bg-white.p-6.rounded-xl.shadow-sm button');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('i');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
