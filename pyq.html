@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PYQ Hub</title>
+    <title>SOIT PYQ By Dastawez</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+      <link rel="icon" type="image/jpg" href="img/logo.jpg" />
     <style>
          img {
       -webkit-user-drag: none;
@@ -25,9 +26,114 @@
         pointer-events: none;
       } 
       
+
+      
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header-animate {
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #f59e0b;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .footer-link {
+            position: relative;
+        }
+        
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .footer-link:hover::after {
+            width: 100%;
+        }
+        
+        .contact-card {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #f59e0b;
+            margin: 12px auto 0;
+        }
+    
     </style>
 </head>
 <body class="bg-gray-100 font-sans" oncontextmenu="return false;">
+      <!-- Header Section -->
+    <header class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-md sticky top-0 z-50 header-animate">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="logo flex items-center">
+                <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                  <img src="./img/logo.jpg" alt="Logo" class="h-full w-full object-cover">
+                </div>
+
+                <h1 class="text-white text-2xl font-bold">Dasta<span class="text-yellow-400">wez</span></h1>
+            </div>
+            <button class="md:hidden text-white text-2xl focus:outline-none" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="hidden md:block" id="mainNav">
+                <ul class="flex space-x-8">
+                    <li><a href="./index.html" class="text-white font-medium nav-link relative py-2">Home</a></li>
+                    <li><a href="./index.html" class="text-white font-medium nav-link relative py-2">Services</a></li>
+                    <!-- <li><a href="./order.html" 
+                           class="text-white font-medium nav-link relative py-2">Order Now</a></li> -->
+                    <li><a href="./index.html" class="text-white font-medium nav-link relative py-2">Contact</a></li>
+                    <li><a href="./about.html" class="text-white font-medium nav-link relative py-2">About</a></li>
+                    <li><a href="./T&C.html" class="text-white font-medium nav-link relative py-2">Terms & Conditions</a></li>
+                    <li><a href="./pyq.html" class="text-white font-medium nav-link relative py-2">SOIT PYQ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">SOIT Previous Year Question Papers</h1>
 
@@ -119,6 +225,102 @@
             </div>
             </div>
     </div>
+
+
+       <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap gap-8 mb-8">
+                <!-- About Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <div class="flex items-center mb-4">
+                        <div class="h-12 w-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                          <img src="./img/logo.jpg" alt="" class="h-full w-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold">Dasta<span class="text-yellow-400">wez</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Your trusted partner for all document and government service needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://chat.whatsapp.com/ELYNoYxFIaC6p4ztD8WPQh" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dastawez.in?igsh=MXZnZmFoNzhuNTlncg==" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Services Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">MP Online Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Academic Forms</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Document Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Digital Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Exam Forms</a></li>
+                        <li><a href="./invoice.html" class="text-gray-400 hover:text-white footer-link">Invoice</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Quick Links Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="./index.html" class="text-gray-400 hover:text-white footer-link">Home</a></li>
+                        <li><a href="./index.html" class="text-gray-400 hover:text-white footer-link">Services</a></li>
+                        <li><a href="./index.html" class="text-gray-400 hover:text-white footer-link">Contact</a></li>
+                        <li><a href="./about.html" class="text-gray-400 hover:text-white footer-link">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white footer-link">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Column -->
+                <div class="flex-1 min-w-[200px]">
+                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-400"></i>
+                            <span>Bhopal, Madhya Pradesh, India</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-blue-400"></i>
+                            <a href="tel:+917898282349" class="hover:text-white">+91-7898282349</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-blue-400"></i>
+                            <a href="mailto:dastawez.in@gmail.com" class="hover:text-white">dastawez.in@gmail.com</a>
+                        </li>
+                         <li class="flex items-start">
+                            <i class="fas fa-tree mt-1 mr-3 text-blue-400"></i>
+                            <a href="https://linktr.ee/dastawez" class="hover:text-white">Link Tree</a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                      
+
+
+
+
+            
+            
+            <div class="pt-6 mt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Dastawez. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
