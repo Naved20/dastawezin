@@ -491,7 +491,7 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <Button
+                {/* <Button
                   type="button"
                   variant="outline"
                   className="w-full"
@@ -517,7 +517,7 @@ const Auth = () => {
                     />
                   </svg>
                   Continue with Google
-                </Button>
+                </Button> */}
               </>
             )}
 
