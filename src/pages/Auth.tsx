@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,6 +30,14 @@ const Auth = () => {
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useSEO({
+    title: mode === 'signup' ? 'Create Account - Dastawez' : 'Sign In - Dastawez',
+    description: mode === 'signup' 
+      ? 'Create your Dastawez account to access document services, bill payments, and government services.'
+      : 'Sign in to your Dastawez account to manage your orders and documents.',
+    keywords: 'login, sign in, create account, register, dastawez',
+  });
 
   // If you use an external deployment (e.g. Vercel), put it here so OAuth can redirect back safely.
   const preferredPublicOrigin = (() => {
@@ -160,14 +169,9 @@ const Auth = () => {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      // In the editor preview, the app can run on an "id-preview" domain.
-      // Redirecting OAuth back there can trigger the auth-bridge flow.
-      // So we redirect OAuth back to the stable preview domain when detected.
       const redirectTo = (() => {
         const { host, origin } = window.location;
 
-        // When running inside Lovable preview domains, redirecting OAuth back there can trigger auth-bridge.
-        // Instead, redirect back to your external deployed site (preferredPublicOrigin).
         const isLovablePreviewDomain =
           /(^id-preview--[0-9a-f-]{36}\.lovable\.app$)/i.test(host) ||
           /lovableproject\.com$/i.test(host) ||
@@ -177,11 +181,8 @@ const Auth = () => {
         return `${base}/auth`;
       })();
 
-      // Debug (safe): helps verify which redirect URL is actually used.
       console.info('[auth] google oauth redirectTo:', redirectTo);
 
-      // IMPORTANT: In embedded previews, redirecting the iframe can cause the platform to intervene.
-      // We request the provider URL without auto-redirect, then redirect the top window ourselves.
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -208,8 +209,6 @@ const Auth = () => {
         return;
       }
 
-      // If we're inside an embedded preview (iframe), open OAuth in a new tab.
-      // This avoids the platform auth-bridge flow that can show: "Invalid token: signing method ES256 is invalid".
       const isEmbedded = (() => {
         try {
           return window.self !== window.top;
@@ -482,8 +481,16 @@ const Auth = () => {
 
             {(mode === 'signin' || mode === 'signup') && (
               <>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-muted" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                  </div>
+                </div>
 
-                {/* <Button
+                <Button
                   type="button"
                   variant="outline"
                   className="w-full"
@@ -509,7 +516,7 @@ const Auth = () => {
                     />
                   </svg>
                   Continue with Google
-                </Button> */}
+                </Button>
               </>
             )}
 

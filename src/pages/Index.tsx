@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSEOWithSchema } from '@/hooks/useSEO';
+import { getOrganizationSchema } from '@/lib/seo';
 import Header from '@/components/landing/Header';
 import Hero from '@/components/landing/Hero';
 import Services from '@/components/landing/Services';
@@ -15,6 +17,17 @@ const Index = () => {
   const [isPWA, setIsPWA] = useState(false);
   const [checkingPWA, setCheckingPWA] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
+
+  useSEOWithSchema(
+    {
+      title: 'Dastawez - Professional Document Services & Government Services',
+      description: 'Dastawez offers professional document printing, digital certificates, bill payments, and government services. Fast, reliable, and affordable solutions for all your document needs.',
+      keywords: 'document printing, digital certificates, bill payment, MP online, government services, document services, printing services, certificate printing',
+      image: 'https://dastawez.vercel.app/pwa-512x512.png',
+      type: 'website',
+    },
+    getOrganizationSchema()
+  );
 
   useEffect(() => {
     // Detect if running as installed PWA (standalone mode)
