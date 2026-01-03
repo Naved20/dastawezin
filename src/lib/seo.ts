@@ -140,3 +140,48 @@ export const getServiceSchema = (service: { name: string; description: string; p
     },
   }),
 });
+
+export const getFAQSchema = (faqs: Array<{ question: string; answer: string }>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+});
+
+export const getBreadcrumbSchema = (items: Array<{ name: string; url: string }>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: item.url,
+  })),
+});
+
+export const getArticleSchema = (article: {
+  headline: string;
+  description: string;
+  image?: string;
+  datePublished: string;
+  dateModified?: string;
+  author?: string;
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.headline,
+  description: article.description,
+  image: article.image,
+  datePublished: article.datePublished,
+  dateModified: article.dateModified || article.datePublished,
+  author: {
+    '@type': 'Organization',
+    name: article.author || 'Dastawez',
+  },
+});

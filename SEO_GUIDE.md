@@ -197,12 +197,25 @@ const serviceSchema = getServiceSchema({
 - Review and update robots.txt
 - Assess overall SEO strategy
 
+## AI-Friendly Features
+
+Your site is also optimized for AI systems:
+- ✅ AI metadata file (/.well-known/ai.json)
+- ✅ AI robots configuration (/ai-robots.txt)
+- ✅ AI-friendly meta tags
+- ✅ Comprehensive structured data
+- ✅ Accessibility compliance (WCAG 2.1)
+- ✅ Semantic HTML markup
+
+See `AI_FRIENDLY_GUIDE.md` for detailed AI optimization information.
+
 ## Resources
 
 - [Google Search Central](https://developers.google.com/search)
 - [Schema.org Documentation](https://schema.org)
 - [Web.dev SEO Guide](https://web.dev/lighthouse-seo/)
 - [Moz SEO Guide](https://moz.com/beginners-guide-to-seo)
+- [AI Friendly Web Guide](./AI_FRIENDLY_GUIDE.md)
 
 ## Support
 

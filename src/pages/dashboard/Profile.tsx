@@ -57,7 +57,7 @@ const Profile = () => {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', user.id)
+        .eq('user_id', user.id)
         .maybeSingle();
 
       if (error) {
@@ -89,7 +89,7 @@ const Profile = () => {
           phone: formData.phone,
           address: formData.address,
         })
-        .eq('id', user.id);
+        .eq('user_id', user.id);
 
       if (error) throw error;
 

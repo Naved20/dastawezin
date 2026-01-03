@@ -1,3 +1,6 @@
+// Alternative Auth using Magic Links (if email/password is disabled)
+// This is a backup if email/password authentication doesn't work
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,6 +12,7 @@ interface AuthContextType {
   isAdmin: boolean;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signInWithMagicLink: (email: string) => Promise<{ error: Error | null }>;
   signInWithGoogle: (redirectUrl: string) => Promise<{ data: any; error: Error | null }>;
   signOut: () => Promise<void>;
 }
@@ -34,10 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Error checking admin role:', error);
         return false;
       }
-      
-      const isAdminUser = !!data;
-      console.log('Admin check for user', userId, ':', isAdminUser, 'Data:', data);
-      return isAdminUser;
+      return !!data;
     } catch (err) {
       console.error('Error in checkAdminRole:', err);
       return false;
@@ -52,15 +53,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsLoading(false);
 
         if (session?.user) {
-          // Check admin role immediately and set up interval to check periodically
-          checkAdminRole(session.user.id).then(setIsAdmin);
-          
-          // Check admin role every 5 seconds to catch updates
-          const adminCheckInterval = setInterval(() => {
+          setTimeout(() => {
             checkAdminRole(session.user.id).then(setIsAdmin);
-          }, 5000);
-
-          return () => clearInterval(adminCheckInterval);
+          }, 0);
         } else {
           setIsAdmin(false);
         }
@@ -96,36 +91,48 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
+        console.error('Signup error:', error);
         return { error };
       }
 
-      // Create profile manually if user was created
       if (data.user) {
-        try {
-          await supabase
-            .from('profiles')
-            .insert({
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([
+            {
               user_id: data.user.id,
               full_name: fullName,
-            } as any);
-        } catch (profileError) {
+            },
+          ]);
+
+        if (profileError) {
           console.error('Error creating profile:', profileError);
         }
 
-        // Auto sign-in after signup to bypass email confirmation
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         try {
-          await supabase.auth.signInWithPassword({
+          const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({
             email,
             password,
           });
+
+          if (signInErr) {
+            console.error('Auto sign-in after signup failed:', signInErr);
+            return { error: signInErr };
+          }
+
+          console.log('Auto sign-in successful:', signInData);
+          await new Promise(resolve => setTimeout(resolve, 1000));
         } catch (signInErr) {
-          console.error('Auto sign-in after signup failed:', signInErr);
-          // User was created, they can sign in manually
+          console.error('Auto sign-in exception:', signInErr);
+          return { error: signInErr as Error };
         }
       }
 
       return { error: null };
     } catch (err) {
+      console.error('Signup exception:', err);
       return { error: err as Error };
     }
   };
@@ -134,6 +141,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
+    });
+    return { error };
+  };
+
+  const signInWithMagicLink = async (email: string) => {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth`,
+      },
     });
     return { error };
   };
@@ -151,28 +168,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signOut = async () => {
     try {
-      // Clear local state first
       setUser(null);
       setSession(null);
       setIsAdmin(false);
       
-      // Then sign out from Supabase
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error('Sign out error:', error);
       }
       
-      // Force navigation to home - works in PWA
       window.location.href = '/';
     } catch (err) {
       console.error('Sign out failed:', err);
-      // Still try to navigate even if sign out fails
       window.location.href = '/';
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, isLoading, isAdmin, signUp, signIn, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, session, isLoading, isAdmin, signUp, signIn, signInWithMagicLink, signInWithGoogle, signOut }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,0 +1,28 @@
+{
+  "ai_disclosure": {
+    "version": "1.0",
+    "last_updated": "2025-01-01",
+    "organization": "Dastawez",
+    "website": "https://dastawez.vercel.app",
+    "contact_email": "support@dastawez.com",
+    "ai_generated_content": false,
+    "ai_training_allowed": true,
+    "ai_training_opt_out": "support@dastawez.com",
+    "description": "Dastawez provides professional document printing, certificates, bill payments, and government services"
+  },
+  "content_policy": {
+    "allow_indexing": true,
+    "allow_caching": true,
+    "allow_training": true,
+    "allow_summarization": true,
+    "allow_citation": true,
+    "require_attribution": true,
+    "commercial_use": false
+  },
+  "ai_features": {
+    "supports_structured_data": true,
+    "supports_schema_org": true,
+    "supports_microdata": true,
+    "supports_json_ld": true
+  }
+}
